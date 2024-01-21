@@ -3,23 +3,21 @@ import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
-import React from "react";
-import { Bounce, toast, ToastContainer } from "react-toastify";
 import { IoLocationOutline } from "react-icons/io5";
 import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
+
 import {
     Form,
     FormControl,
-    FormDescription,
+    
     FormField,
     FormItem,
-    FormLabel,
+  
     FormMessage,
   } from "@/components/ui/form"
   import { Input } from "@/components/ui/input"
 import * as z from "zod"
- 
+
 const formSchema = z.object({
   username: z.string().min(2).max(50),
 })
@@ -38,6 +36,7 @@ const Page = () => {
      
       // 2. Define a submit handler.
       function onSubmit(values: z.infer<typeof formSchema>) {
+      console.log(values);
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         try {

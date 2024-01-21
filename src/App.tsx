@@ -8,13 +8,13 @@ function App() {
 
   return (
     
-      <main className="flex h-screen">
+      <>
         <Routes>
           <Route path="*" element={<NotFound />} />
           <Route path="/" element={<Page />} />
         </Routes>
         
-      </main>
+      </>
     
 
     
