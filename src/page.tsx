@@ -65,7 +65,7 @@ const Page = () => {
               title: "Subscribed successfully",
               
             })
-            // setInput("");
+            form.setValue("email", "");
           } catch (error) {
               toast({
                   variant: "destructive",
