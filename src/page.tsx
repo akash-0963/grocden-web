@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { IoLocationOutline } from "react-icons/io5";
 import { useState } from "react";
+import {collection,addDoc} from "firebase/firestore"
+import { firestore } from "./lib/firebase";
 
 import {
     Form,
@@ -19,35 +21,51 @@ import {
 import * as z from "zod"
 
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
+  email: z.string().email(),
 })
 const Page = () => {
   const {toast} = useToast();
-  const [input, setInput] = useState<string>("");
+  // const [input, setInput] = useState<string>("");
   const [more, setMore] = useState<boolean>(false);
+
+      const handleSubscibe=async(email:string)=>{
+        try {
+          
+        await addDoc(collection(firestore,"subscribers"),{
+            email:email,
+            createdAt:new Date()
+        })
+        console.log("success");
+        // setInput("");
+        } catch (error) {
+          console.log(error);
+        }
+    }
 
     // 1. Define your form.
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-          username: "",
+          email: "",
         },
       })
      
       // 2. Define a submit handler.
       function onSubmit(values: z.infer<typeof formSchema>) {
-      console.log(values);
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        try {
-            console.log(input);
+      // console.log(values);
+      
+      try {
+        
+        handleSubscibe(values?.email);
+
+            console.log(values?.email);
       
             toast({
         
               title: "Subscribed successfully",
               
             })
-            setInput("");
+            // setInput("");
           } catch (error) {
               toast({
                   variant: "destructive",
@@ -131,10 +149,10 @@ const Page = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
         <FormField
           control={form.control}
-          name="username"
+          name="email"
           render={({ field }) => (
             <FormItem>
-              
+    
               <FormControl>
                 <Input placeholder="Enter your email..." {...field} className="w-5/6 h-12 bg-white" />
               </FormControl>
